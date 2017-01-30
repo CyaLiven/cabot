@@ -827,7 +827,7 @@ class StatusCheckResult(models.Model):
     Checks don't have to use all the fields, so most should be
     nullable
     """
-    check = models.ForeignKey(StatusCheck)
+    status_check = models.ForeignKey(StatusCheck)
     time = models.DateTimeField(null=False, db_index=True)
     time_complete = models.DateTimeField(null=True, db_index=True)
     raw_data = models.TextField(null=True)
@@ -840,12 +840,12 @@ class StatusCheckResult(models.Model):
     class Meta:
         ordering = ['-time_complete']
         index_together = (
-            ('check', 'time_complete'),
-            ('check', 'id'),  # used to speed up StatusCheck.last_result
+            ('status_check', 'time_complete'),
+            ('status_check', 'id'),  # used to speed up StatusCheck.last_result
         )
 
     def __unicode__(self):
-        return '%s: %s @%s' % (self.status, self.check.name, self.time)
+        return '%s: %s @%s' % (self.status, self.status_check.name, self.time)
 
     @property
     def status(self):
